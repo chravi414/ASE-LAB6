@@ -10,7 +10,8 @@ const customers = require('./customer.js');
 const idOptions = {
     describe: 'Customer ID',
     demand : true,
-    alias : 'i'
+    alias : 'i',
+    type: 'number'
 }
 
 const nameOptions = {
@@ -22,7 +23,21 @@ const nameOptions = {
 const emailOptions = {
     describe: 'Email ID of a Customer',
     demand : true,
-    alias : 'e'
+    alias : 'e',
+    type: 'email'
+}
+
+const nameUpdateOptions = {
+  describe: 'Name of a Customer',
+  demand : false,
+  alias : 'n'
+}
+
+const emailUpdateOptions = {
+  describe: 'Email ID of a Customer',
+  demand : false,
+  alias : 'e',
+  type: 'email'
 }
 
 const argv =  yargs
@@ -38,6 +53,11 @@ const argv =  yargs
     })
     .command('remove','Remove a Customer',{
       id: idOptions,
+    })
+    .command('update', 'Update a Customer', {
+      id: idOptions,
+      name: nameUpdateOptions,
+      email: emailUpdateOptions
     })
     .help()
     .argv;
@@ -81,6 +101,16 @@ else if (command === 'remove') {
     console.log(message);
 }
 
+else if(command === 'update') {
+  console.log(argv);
+  if (!argv.name && !argv.email) {
+    return console.log('No details provided to update.Name or email required');
+  }
+  const customerUpdated = customers.updateCustomer(argv.id, argv.name, argv.email);
+  const message = customerUpdated ? `Customer Updated \n id : ${customerUpdated.id} \n name : ${customerUpdated.name} \n email : ${customerUpdated.email} \n` : 'Customer not found';
+  console.log(message);
+}
+
 else{
-  console.log('command note recognized'); 
+  console.log('command not recognized'); 
 }

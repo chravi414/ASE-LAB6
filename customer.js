@@ -77,6 +77,21 @@ var remove = (id) => {
     
 };
 
+const updateCustomer = (id,name,email) => {
+  var customers = fetchCustomers();
+
+  const index = customers.findIndex(c => {
+      return c.id === id;
+  });
+console.log(index);
+  if (index >= 0) {
+    customers[index].name = name ? name : customers[0].name;
+    customers[index].email = email ? email : customers[0].email;
+    saveCustomers(customers);
+    return customers[index];
+  }
+}
+
 // function just to print out customer to screen
 
 var logCustomer = (customer) => { 
@@ -88,5 +103,5 @@ var logCustomer = (customer) => {
 
 
 module.exports = {
-  addCustomer, getAll, remove, getCustomer, logCustomer
+  addCustomer, getAll, remove, getCustomer, logCustomer, updateCustomer
 };
