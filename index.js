@@ -102,7 +102,6 @@ else if (command === 'remove') {
 }
 
 else if(command === 'update') {
-  console.log(argv);
   if (!argv.name && !argv.email) {
     return console.log('No details provided to update.Name or email required');
   }
